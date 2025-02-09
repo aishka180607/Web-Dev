@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <section class="todo">
+      <h2>My todo-list</h2>
+
+      <div class="input">
+        <input
+          class="input-field"
+          id="todoInput"
+          type="text"
+          placeholder="Enter your task"
+        />
+        <button class="btn">Add todo</button>
+      </div>
+      <ul class="scroll">
+        <li id="todoList"></li>
+      </ul>
+
+      <div>
+        <hr class="counter" />
+        <div class="counter-container">
+          <p><span id="todoCount">0</span> items total</p>
+          <button id="deleteButton">Delete all tasks</button>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="footer">
+        <p class="made-by">Made by</p>
+        <p class="author">Aisha</p>
+      </div>
+    </footer>
+    <script src="./script.js"></script>
+  </body>
+</html>
