@@ -1,59 +1,72 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const todoInput = document.getElementById("todoInput");
-    const addButton = document.querySelector(".btn");
-    const todoList = document.getElementById("todoList");
-    const todoCount = document.getElementById("todoCount");
-    const deleteButton = document.getElementById("deleteButton");
-  
-    function updateCounter() {
-      const totalTasks = todoList.children.length;
-      todoCount.textContent = totalTasks;
-    }
-    function addTask() {
-      const taskText = todoInput.value.trim();
-  
+  const taskInput = document.getElementById("todoInput");
+  const addTaskBtn = document.querySelector(".btn");
+  const taskList = document.getElementById("todoList");
+  const taskCount = document.getElementById("todoCount");
+  const deleteAllBtn = document.getElementById("deleteButton");
+
+  let tasks = [];
+
+  function updateCounter() {
+      taskCount.textContent = tasks.length;
+  }
+
+  function addTask() {
+      const taskText = taskInput.value.trim();
       if (taskText === "") {
-        alert("Enter the task!");
-        return;
+          alert("Enter the task!");
+          return;
       }
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <p>
-          <input type="checkbox" />
-          <span>${taskText}</span>
-          <button class="delete-task">×</button>
-        </p>
-      `;
-  
-      todoList.appendChild(li);
-      todoInput.value = "";
+      
+      tasks.push({ name: taskText, done: false });
+      renderTasks();
+      taskInput.value = "";
+  }
+
+  function renderTasks() {
+      taskList.innerHTML = "";
+      tasks.forEach((task, index) => {
+          const taskItem = document.createElement("li");
+          taskItem.innerHTML = `
+              <p>
+                  <input type="checkbox" class="task-done" ${task.done ? "checked" : ""}/>
+                  <span class="task-name ${task.done ? "disabled" : ""}">${task.name}</span>
+                  <button class="delete-task">×</button>
+              </p>
+          `;
+          
+          const checkbox = taskItem.querySelector(".task-done");
+          checkbox.addEventListener("change", () => markTaskDone(index));
+          
+          const deleteBtn = taskItem.querySelector(".delete-task");
+          deleteBtn.addEventListener("click", () => deleteTask(index));
+          
+          taskList.appendChild(taskItem);
+      });
       updateCounter();
-      const deleteTaskButton = li.querySelector(".delete-task");
-      deleteTaskButton.addEventListener("click", function () {
-        li.remove();
-        updateCounter();
-      });
-  
-      const checkbox = li.querySelector("input[type='checkbox']");
-      checkbox.addEventListener("change", function () {
-        const taskSpan = li.querySelector("span");
-        if (checkbox.checked) {
-          taskSpan.classList.add("disabled");
-        } else {
-          taskSpan.classList.remove("disabled");
-        }
-      });
-    }
-  
-    addButton.addEventListener("click", addTask);
-  
-    todoInput.addEventListener("keypress", function (e) {
+  }
+
+  function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+  }
+
+  function markTaskDone(index) {
+      tasks[index].done = !tasks[index].done;
+      renderTasks();
+  }
+
+  addTaskBtn.addEventListener("click", addTask);
+  taskInput.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
-        addTask();
+          addTask();
       }
-    });
-    deleteButton.addEventListener("click", function () {
-      todoList.innerHTML = ""; 
-      updateCounter(); 
-    });
   });
+
+  deleteAllBtn.addEventListener("click", function () {
+      tasks = [];
+      renderTasks();
+  });
+
+  renderTasks();
+});
