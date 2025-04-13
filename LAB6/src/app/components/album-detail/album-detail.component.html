@@ -1,0 +1,16 @@
+<div class="album-details">
+  <h2>Album Details</h2>
+
+  <div *ngIf="album">
+    <h3>{{ album.title }}</h3>
+    <label>
+      Edit Title:
+      <input [(ngModel)]="updatedTitle" />
+    </label>
+    <br />
+    <button (click)="saveTitle()">Save</button>
+    <button class="return" (click)="goBack()">Return</button>
+    <br />
+    <a [routerLink]="['/albums', album.id, 'photos']">📷 View Photos</a>
+  </div>
+</div>
